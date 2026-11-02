@@ -1,21 +1,23 @@
-# Política de seguridad
+# Security policy
 
-## Versiones soportadas
+**English** · [Español](SECURITY.es.md)
 
-Sólo la última versión de `main` recibe correcciones.
+## Supported versions
 
-## Reportar una vulnerabilidad
+Only the latest version of `main` receives fixes.
 
-No abras un issue público. Reportala en privado desde la pestaña **Security → Report a vulnerability** del repositorio ([enlace directo](https://github.com/francofl99/port-deck/security/advisories/new)).
+## Reporting a vulnerability
 
-Incluí, si podés:
+Please don't open a public issue. Report it privately from the repository's **Security → Report a vulnerability** tab ([direct link](https://github.com/francofl99/port-deck/security/advisories/new)).
 
-- qué versión o commit usaste,
-- los pasos para reproducirla,
-- el impacto que ves.
+If you can, include:
 
-Vas a recibir una respuesta en un plazo razonable. Una vez corregida, el aviso se publica con el crédito correspondiente, salvo que prefieras quedar anónimo.
+- the version or commit you used,
+- steps to reproduce it,
+- the impact you see.
 
-## Alcance
+You'll get a reply within a reasonable time. Once it's fixed, the advisory is published with credit to you, unless you prefer to stay anonymous.
 
-PortDeck ejecuta, con tus permisos, los comandos que vos configurás. Que un comando configurado haga algo dañino no es una vulnerabilidad de PortDeck. Sí lo es, por ejemplo, que la app ejecute algo que no configuraste, exponga datos fuera de tu usuario o afecte procesos que no lanzó.
+## Scope
+
+PortDeck runs, with your permissions, the commands you configure. A configured command doing something harmful is not a PortDeck vulnerability. Examples of what is: the app running something you didn't configure, exposing data outside your user, or affecting processes it didn't launch.

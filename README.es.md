@@ -51,7 +51,7 @@ PortDeck corre con tus permisos de usuario y sin sandbox, porque su trabajo es l
 - Para ver qué puertos están ocupados usa `lsof`, que sin root sólo ve tus propios procesos.
 - No hace conexiones de red propias.
 
-Para reportar una vulnerabilidad, ver [SECURITY.md](SECURITY.md).
+Para reportar una vulnerabilidad, ver [SECURITY.es.md](SECURITY.es.md).
 
 ## Licencia
 
