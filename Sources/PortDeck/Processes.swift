@@ -38,7 +38,7 @@ enum Spawner {
         defer { posix_spawn_file_actions_destroy(&actions) }
         posix_spawn_file_actions_addchdir_np(&actions, directory)
         posix_spawn_file_actions_addopen(&actions, STDIN_FILENO, "/dev/null", O_RDONLY, 0)
-        posix_spawn_file_actions_addopen(&actions, STDOUT_FILENO, log.path, O_WRONLY | O_CREAT | O_APPEND, 0o644)
+        posix_spawn_file_actions_addopen(&actions, STDOUT_FILENO, log.path, O_WRONLY | O_CREAT | O_APPEND, 0o600)
         posix_spawn_file_actions_adddup2(&actions, STDOUT_FILENO, STDERR_FILENO)
 
         var attributes: posix_spawnattr_t?

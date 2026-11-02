@@ -1,4 +1,8 @@
 .build/
-PortDeck.app/
-.DS_Store
 .swiftpm/
+PortDeck.app/
+*.xcodeproj/xcuserdata/
+DerivedData/
+.DS_Store
+.env
+*.log

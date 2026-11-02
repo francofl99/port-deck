@@ -258,7 +258,7 @@ final class Deck {
 
     private static func append(_ text: String, to url: URL) {
         if !FileManager.default.fileExists(atPath: url.path) {
-            FileManager.default.createFile(atPath: url.path, contents: nil)
+            FileManager.default.createFile(atPath: url.path, contents: nil, attributes: [.posixPermissions: 0o600])
         }
         guard let handle = try? FileHandle(forWritingTo: url) else { return }
         defer { try? handle.close() }

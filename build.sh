@@ -17,7 +17,7 @@ cat > "$APP/Contents/Info.plist" <<'PLIST'
 <dict>
     <key>CFBundleName</key><string>PortDeck</string>
     <key>CFBundleDisplayName</key><string>PortDeck</string>
-    <key>CFBundleIdentifier</key><string>com.franco.portdeck</string>
+    <key>CFBundleIdentifier</key><string>io.github.francofl99.portdeck</string>
     <key>CFBundleExecutable</key><string>PortDeck</string>
     <key>CFBundlePackageType</key><string>APPL</string>
     <key>CFBundleShortVersionString</key><string>0.1</string>
@@ -29,6 +29,6 @@ cat > "$APP/Contents/Info.plist" <<'PLIST'
 </plist>
 PLIST
 
-codesign --force --sign "${PORTDECK_IDENTITY:--}" --identifier com.franco.portdeck "$APP" >/dev/null 2>&1
+codesign --force --sign "${PORTDECK_IDENTITY:--}" --identifier io.github.francofl99.portdeck "$APP" >/dev/null 2>&1
 
 echo "✔ $APP"
