@@ -1,28 +1,30 @@
 # PortDeck
 
-App de barra de estado para macOS que arranca, detiene y vigila los proyectos que corrés en localhost.
+**English** · [Español](README.es.md)
 
-- **Menú:** cada proyecto con su puerto y estado (activo, arrancando, inactivo, puerto ocupado por otro proceso, error). Arrancar, detener, abrir en el navegador, arrancar en otro puerto y ver el log.
-- **Ventana:** agregar, editar y quitar proyectos. Al elegir la carpeta, propone un comando según lo que encuentra (`package.json`, `artisan`, `manage.py`, `compose.yaml`).
-- **Inicio:** se abre sola al iniciar sesión (Ajustes del Sistema → Ítems de inicio) y puede arrancar los proyectos marcados.
+A macOS menu bar app that starts, stops and watches the projects you run on localhost. The interface is in Spanish.
 
-## Cómo arranca cada proyecto
+- **Menu:** every project with its port and status (running, starting, stopped, port taken by another process, failed). Start, stop, open in the browser, start on another port and view the log.
+- **Window:** add, edit and remove projects. When you pick a folder it suggests a command based on what it finds (`package.json`, `artisan`, `manage.py`, `compose.yaml`).
+- **Login:** opens at login (System Settings → Login Items) and can start the projects you mark.
 
-El comando se corre con `zsh -c` dentro de la carpeta del proyecto, con el entorno de tu shell interactivo (nvm, Homebrew y el resto del PATH). `{PORT}` se reemplaza por el puerto elegido y además se exporta `$PORT`:
+## How each project starts
+
+The command runs with `zsh -c` inside the project folder, with your interactive shell's environment (nvm, Homebrew and the rest of your PATH). `{PORT}` is replaced with the chosen port, and `$PORT` is exported too:
 
 ```text
 npm run dev -- --port {PORT}
 php artisan serve --port={PORT}
-npm start                      # si la app lee $PORT
+npm start                      # if the app reads $PORT
 ```
 
-Arrancar en otro puerto sólo funciona si el comando usa `{PORT}` o la app respeta `$PORT`.
+Starting on another port only works if the command uses `{PORT}` or the app honors `$PORT`.
 
-Cada proyecto corre en su propio grupo de procesos: detenerlo manda `SIGTERM` al grupo entero y `SIGKILL` a los 5 s si sigue vivo. Si PortDeck se cierra sin detenerlos, al volver a abrirse retoma los que siguen vivos; reconoce cada uno por el pid y la hora de arranque de su proceso principal, así nunca toma por suyo un proceso ajeno que reusó el mismo pid.
+Each project runs in its own process group: stopping it sends `SIGTERM` to the whole group, then `SIGKILL` after 5 s if it is still alive. If PortDeck quits without stopping them, it picks the live ones back up when it reopens; it recognizes each one by the pid and start time of its main process, so it never adopts an unrelated process that reused the same pid.
 
-## Compilar e instalar
+## Build and install
 
-Requiere macOS 15 o posterior y Xcode (o las Command Line Tools con Swift 6).
+Requires macOS 15 or later and Xcode (or the Command Line Tools with Swift 6).
 
 ```bash
 git clone https://github.com/francofl99/port-deck.git
@@ -31,26 +33,26 @@ cd port-deck
 mv PortDeck.app /Applications/
 ```
 
-`build.sh` firma la app ad hoc. Para firmar con tu propio certificado: `PORTDECK_IDENTITY="Developer ID Application: …" ./build.sh`.
+`build.sh` signs the app ad hoc. To sign with your own certificate: `PORTDECK_IDENTITY="Developer ID Application: …" ./build.sh`.
 
-## Archivos
+## Files
 
-- Proyectos: `~/Library/Application Support/PortDeck/projects.json`
+- Projects: `~/Library/Application Support/PortDeck/projects.json`
 - Logs: `~/Library/Logs/PortDeck/<id>.log`
 
-Los logs se crean con permisos `600` (sólo tu usuario), porque la salida de un servidor de desarrollo puede incluir credenciales.
+Logs are created with mode `600` (your user only), because dev server output can include credentials.
 
-## Seguridad
+## Security
 
-PortDeck corre con tus permisos de usuario y sin sandbox, porque su trabajo es lanzar procesos:
+PortDeck runs with your user's permissions and without a sandbox, because its job is to launch processes:
 
-- Ejecuta tal cual el comando que configurás para cada proyecto. No agregues proyectos ni importes un `projects.json` de origen desconocido.
-- Al abrirse lee el entorno de tu shell interactivo (`$SHELL -ilc env`) y se lo pasa a los procesos que lanza. Eso incluye las variables que exportes en `.zshrc`, tokens incluidos; no las guarda ni las manda a ningún lado.
-- Para ver qué puertos están ocupados usa `lsof`, que sin root sólo ve tus propios procesos.
-- No hace conexiones de red propias.
+- It runs the command you configure for each project as is. Don't add projects or import a `projects.json` from an unknown source.
+- On launch it reads your interactive shell's environment (`$SHELL -ilc env`) and passes it to the processes it starts. That includes the variables you export in `.zshrc`, tokens included; it neither stores them nor sends them anywhere.
+- To see which ports are taken it uses `lsof`, which without root only sees your own processes.
+- It makes no network connections of its own.
 
-Para reportar una vulnerabilidad, ver [SECURITY.md](SECURITY.md).
+To report a vulnerability, see [SECURITY.md](SECURITY.md).
 
-## Licencia
+## License
 
 [MIT](LICENSE)
