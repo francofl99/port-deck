@@ -18,7 +18,7 @@ npm start                      # si la app lee $PORT
 
 Arrancar en otro puerto sólo funciona si el comando usa `{PORT}` o la app respeta `$PORT`.
 
-Cada proyecto corre en su propio grupo de procesos: detenerlo manda `SIGTERM` al grupo entero y `SIGKILL` a los 5 s si sigue vivo. Si PortDeck se cierra sin detenerlos, al volver a abrirse retoma los que siguen vivos.
+Cada proyecto corre en su propio grupo de procesos: detenerlo manda `SIGTERM` al grupo entero y `SIGKILL` a los 5 s si sigue vivo. Si PortDeck se cierra sin detenerlos, al volver a abrirse retoma los que siguen vivos; reconoce cada uno por el pid y la hora de arranque de su proceso principal, así nunca toma por suyo un proceso ajeno que reusó el mismo pid.
 
 ## Compilar e instalar
 

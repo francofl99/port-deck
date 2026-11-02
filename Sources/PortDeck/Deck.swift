@@ -36,9 +36,11 @@ enum Status: Equatable {
 }
 
 // Lo lanzado sobrevive a un cierre inesperado de la app: se guarda para retomarlo al volver.
+// `started` distingue nuestro grupo de otro que reusó el mismo pgid (p. ej. tras reiniciar la Mac).
 struct Run: Codable {
     var pgid: Int32
     var port: Int
+    var started: Int64
     var stopping = false
 }
 
@@ -67,8 +69,8 @@ final class Deck {
     private init() {
         projects = Paths.load([Project].self, from: Paths.projects) ?? []
         runs = (Paths.load([UUID: Run].self, from: Paths.runtime) ?? [:])
-            .filter { Spawner.alive(group: $0.value.pgid) }
-            .mapValues { Run(pgid: $0.pgid, port: $0.port) }
+            .filter { Spawner.alive(group: $0.value.pgid) && Spawner.startTime(of: $0.value.pgid) == $0.value.started }
+            .mapValues { Run(pgid: $0.pgid, port: $0.port, started: $0.started) }
         saveRuntime()
         timer = Timer.scheduledTimer(withTimeInterval: 2, repeats: true) { _ in
             MainActor.assumeIsolated { Deck.shared.tick() }
@@ -177,7 +179,7 @@ final class Deck {
             let pid = try Spawner.spawn(
                 command: command, directory: project.expandedDirectory, environment: environment, log: log
             )
-            runs[project.id] = Run(pgid: pid, port: port)
+            runs[project.id] = Run(pgid: pid, port: port, started: Spawner.startTime(of: pid) ?? 0)
             failures[project.id] = nil
             saveRuntime()
         } catch {

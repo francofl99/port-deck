@@ -60,6 +60,15 @@ enum Spawner {
     static func alive(group: pid_t) -> Bool {
         kill(-group, 0) == 0 || errno == EPERM
     }
+
+    static func startTime(of pid: pid_t) -> Int64? {
+        var info = kinfo_proc()
+        var size = MemoryLayout<kinfo_proc>.stride
+        var mib = [CTL_KERN, KERN_PROC, KERN_PROC_PID, pid]
+        guard sysctl(&mib, u_int(mib.count), &info, &size, nil, 0) == 0, size > 0 else { return nil }
+        let time = info.kp_proc.p_un.__p_starttime
+        return Int64(time.tv_sec) * 1_000_000 + Int64(time.tv_usec)
+    }
 }
 
 struct Listener: Equatable {
